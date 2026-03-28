@@ -103,7 +103,7 @@ The project follows a layered architecture:
 
 ## Author
 
-Developed by [Arnav Tongia]
+Developed by Arnav Tongia
 
 ---
 
