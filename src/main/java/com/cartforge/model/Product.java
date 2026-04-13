@@ -1,6 +1,8 @@
 package com.cartforge.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+
 
 @Entity
 @Table(name = "products")
@@ -10,12 +12,16 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name cannot be empty")
     private String name;
 
+    @NotBlank(message = "Description cannot be empty")
     private String description;
 
+    @Positive(message = "Price must be positive")
     private double price;
 
+    @Min(value = 0, message = "Stock cannot be negative")
     private int stock;
 
     // getters & setters

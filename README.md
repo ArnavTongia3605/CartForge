@@ -93,11 +93,9 @@ The project follows a layered architecture:
 
 ## Future Improvements
 
-- Password encryption (BCrypt)
 - Order management system
 - Payment integration
 - Redis caching for performance
-- Role-based access control (Admin/User)
 
 ---
 

@@ -2,6 +2,7 @@ package com.cartforge.controller;
 
 import com.cartforge.model.Product;
 import com.cartforge.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    public Product addProduct(@RequestBody Product product) {
+    public Product addProduct(@Valid @RequestBody Product product) {
         return productService.addProduct(product);
     }
 

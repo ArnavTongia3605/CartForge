@@ -14,6 +14,17 @@ public class ProductService {
     private ProductRepository productRepository;
 
     public Product addProduct(Product product) {
+        if(product == null){
+            throw new RuntimeException("Product cannot be null");
+        }
+
+        if(product.getPrice() <= 0){
+            throw new RuntimeException("Price must be positive");
+        }
+
+        if(product.getStock() < 0){
+            throw new RuntimeException("Stock cannot be negative");
+        }
         return productRepository.save(product);
     }
 
