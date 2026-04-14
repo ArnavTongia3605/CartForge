@@ -1,6 +1,7 @@
 package com.cartforge.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "users")
@@ -10,14 +11,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name cannot be empty")
     private String name;
 
-    @Column(unique = true)
+    @Email(message = "Invalid email")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
 
+    @NotBlank(message = "Password cannot be empty")
+    @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
-    private String role;
+    private String role = "USER"; // default role
 
     // getters & setters
     public Long getId() { return id; }

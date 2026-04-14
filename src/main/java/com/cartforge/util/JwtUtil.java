@@ -9,14 +9,19 @@ public class JwtUtil {
 
     private final String SECRET_KEY = "cartforge-secret-key";
 
-    public String generateToken(String email) {
+    public String generateToken(String email, String role) {
 
         return Jwts.builder()
                 .setSubject(email)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
+    }
+
+    public String extractRole(String token) {
+        return getClaims(token).get("role", String.class);
     }
 
     public String extractUsername(String token) {

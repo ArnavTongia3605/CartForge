@@ -8,10 +8,14 @@ CartForge is a scalable backend application built using Spring Boot that provide
 
 - User Authentication (Register & Login)
 - JWT-based Authentication & Authorization
-- Product Management (Add & View Products)
-- Cart Management (Add to Cart & View Cart)
+- Role-based Access Control (ADMIN / USER)
+- Product Management (Create, Read, Update, Delete)
+- Cart Management (Add, View, Update, Remove items)
+- Secure user-specific cart operations (no client-side userId)
+- Input validation using Jakarta Validation
 - PostgreSQL Database Integration
 - Secure REST APIs with Spring Security
+
 
 ---
 
@@ -38,28 +42,43 @@ The project follows a layered architecture:
 
 ---
 
-## Authentication Flow
+## Authentication & Authorization Flow
 
 1. User registers using `/api/auth/register`
 2. User logs in via `/api/auth/login`
-3. Server generates a JWT token
-4. Token is used to access protected APIs
+3. Server generates a JWT token with user role
+4. Token is sent in Authorization header: `Authorization: Bearer <token>`
+5. JWT is validated via filter and user is set in SecurityContext
+6. Role-based access is enforced using Spring Security
+
 
 ---
 
 ## API Endpoints
 
 ### Auth APIs
-- `POST /api/auth/register` → Register user
+- `POST /api/auth/register` → Register user (USER / ADMIN)
 - `POST /api/auth/login` → Login & get JWT token
 
 ### Product APIs
-- `POST /api/products` → Add product
-- `GET /api/products` → Get all products
+
+| Method | Endpoint | Access | Description |
+|--------|---------|--------|------------|
+| POST | `/api/products` | ADMIN | Add product |
+| GET | `/api/products` | USER, ADMIN | View all products |
+| PUT | `/api/products/{id}` | ADMIN | Update product |
+| DELETE | `/api/products/{id}` | ADMIN | Delete product |
+
+---
 
 ### Cart APIs
-- `POST /api/cart` → Add item to cart
-- `GET /api/cart/{userId}` → Get user cart
+
+| Method | Endpoint | Access | Description |
+|--------|---------|--------|------------|
+| POST | `/api/cart` | USER | Add item to cart |
+| GET | `/api/cart` | USER | Get logged-in user cart |
+| PUT | `/api/cart/{productId}` | USER | Update quantity |
+| DELETE | `/api/cart/{productId}` | USER | Remove item |
 
 ---
 
@@ -107,4 +126,4 @@ Developed by Arnav Tongia
 
 ## Notes
 
-This project was built to gain hands-on experience in backend development, REST API design, authentication, and real-world system architecture.
+This project demonstrates real-world backend development concepts including secure API design, JWT authentication, role-based access control, and scalable architecture using Spring Boot.

@@ -3,6 +3,7 @@ package com.cartforge.security;
 import com.cartforge.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 @Component
 public class JwtFilter implements Filter {
@@ -32,9 +34,14 @@ public class JwtFilter implements Filter {
             if (jwtUtil.validateToken(token)) {
 
                 String email = jwtUtil.extractUsername(token);
+                String role = jwtUtil.extractRole(token);
 
                 UsernamePasswordAuthenticationToken auth =
-                        new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
+                        new UsernamePasswordAuthenticationToken(
+                                email,
+                                null,
+                                List.of(new SimpleGrantedAuthority(role))
+                        );
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }

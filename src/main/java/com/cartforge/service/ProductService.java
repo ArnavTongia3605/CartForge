@@ -31,4 +31,21 @@ public class ProductService {
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
+
+    public Product updateProduct(Long id, Product updated) {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setName(updated.getName());
+        product.setDescription(updated.getDescription());
+        product.setPrice(updated.getPrice());
+        product.setStock(updated.getStock());
+
+        return productRepository.save(product);
+    }
+
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+    }
 }
